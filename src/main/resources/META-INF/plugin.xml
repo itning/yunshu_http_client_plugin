@@ -8,12 +8,19 @@
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!--应用级别服务-->
+        <!--OkHttp 服务-->
         <applicationService id="yunshu.okhttp"
                             serviceImplementation="com.github.itning.yunshuhttpclientplugin.service.OkHttpClientApplicationService"/>
-
+        <!--工具窗口服务-->
+        <projectService id="yunshu.toolWindow"
+                        serviceImplementation="com.github.itning.yunshuhttpclientplugin.service.HttpToolWindowProjectService"/>
         <!--标记-->
         <codeInsight.lineMarkerProvider id="yunshu.RequestMappingLineMarkerProvider" language="JAVA"
                                         implementationClass="com.github.itning.yunshuhttpclientplugin.provider.RequestMappingLineMarkerProvider"/>
+
+        <!--Http工具窗口-->
+        <toolWindow id="Http Client" icon="AllIcons.Toolwindows.WebToolWindow"
+                    factoryClass="com.github.itning.yunshuhttpclientplugin.toolwindow.HttpToolWindowFactory"
+                    anchor="right"/>
     </extensions>
 </idea-plugin>

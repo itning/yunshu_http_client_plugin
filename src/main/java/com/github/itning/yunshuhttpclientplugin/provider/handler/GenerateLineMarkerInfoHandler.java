@@ -1,9 +1,12 @@
 package com.github.itning.yunshuhttpclientplugin.provider.handler;
 
 import com.github.itning.yunshuhttpclientplugin.MessageBundle;
+import com.github.itning.yunshuhttpclientplugin.service.HttpToolWindowProjectService;
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
+import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiIdentifier;
 import org.jetbrains.annotations.NotNull;
@@ -33,9 +36,14 @@ public class GenerateLineMarkerInfoHandler implements PsiElementHandler {
                 psiIdentifier,
                 psiIdentifier.getTextRange(),
                 AllIcons.Actions.Find,
-                (elt) -> MessageBundle.message("requestMappingLineMarkerProviderTooltip"), (e, elt) -> {
-
-        },
+                (elt) -> MessageBundle.message("requestMappingLineMarkerProviderTooltip"),
+                (e, elt) -> {
+                    HttpToolWindowProjectService.getInstance(psiIdentifier.getProject()).setUrl(path);
+                    ToolWindow toolWindow = ToolWindowManager.getInstance(elt.getProject()).getToolWindow("Http Client");
+                    if (null != toolWindow) {
+                        toolWindow.show();
+                    }
+                },
                 GutterIconRenderer.Alignment.CENTER,
                 MessageBundle.messagePointer("requestMappingLineMarkerProviderAccessibleName"));
         return lineMarkerInfo;
